@@ -101,11 +101,11 @@ class JobDetails extends Component {
         <p>{location}</p>
         <a href={companyWebsiteUrl}>visit</a>
 
-        <ul>
+        {/* <ul>
           {skillsData.map(product => (
             <SkillsData product={product} key={product.name} />
           ))}
-        </ul>
+        </ul> */}
         <div>
           <h1>About Us</h1>
           <img src={imageUrl} />
