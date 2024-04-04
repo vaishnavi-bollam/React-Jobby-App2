@@ -1,6 +1,7 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
+import SkillsData from '../SkillsData/index'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -13,6 +14,7 @@ class JobDetails extends Component {
   state = {
     eachJobList: [],
     apiStatus: apiStatusConstants.initial,
+    skillsData: [],
   }
 
   componentDidMount() {
@@ -52,9 +54,16 @@ class JobDetails extends Component {
       const fetchedData = await response.json()
       console.log(fetchedData.job_details)
       const updatedData = this.getFormattedData(fetchedData.job_details)
+      const updatedskillsData = fetchedData.job_details.skills.map(
+        eachSkill => ({
+          name: eachSkill.name,
+          imageUrl: eachSkill.image_url,
+        }),
+      )
       this.setState({
         eachJobList: updatedData,
         apiStatus: apiStatusConstants.success,
+        skillsData: updatedskillsData,
       })
     } else {
       this.setState({
@@ -64,7 +73,7 @@ class JobDetails extends Component {
   }
 
   renderJobsListView = () => {
-    const {eachJobList} = this.state
+    const {eachJobList, skillsData} = this.state
     const {
       companyLogoUrl,
       companyWebsiteUrl,
@@ -88,6 +97,17 @@ class JobDetails extends Component {
         <p>{jobDescription}</p>
         <p>{location}</p>
         <a href={companyWebsiteUrl}>visit</a>
+
+        <ul>
+          {skillsData.map(product => (
+            <SkillsData product={product} key={product.name} />
+          ))}
+        </ul>
+        <div>
+          <h1>About Us</h1>
+          <img src={imageUrl} />
+          <p>{description}</p>
+        </div>
       </div>
     )
   }
