@@ -2,6 +2,7 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import SkillsData from '../SkillsData/index'
+// import SimilarJobs from '../SimilarJobs/index'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -15,6 +16,7 @@ class JobDetails extends Component {
     eachJobList: [],
     apiStatus: apiStatusConstants.initial,
     skillsData: [],
+    similarJobsData: [],
   }
 
   componentDidMount() {
@@ -53,7 +55,7 @@ class JobDetails extends Component {
     const response = await fetch(url, options)
     if (response.ok) {
       const fetchedData = await response.json()
-      console.log(fetchedData.job_details)
+      console.log(fetchedData.job_details.similar_jobs)
       const updatedData = this.getFormattedData(fetchedData.job_details)
       const updatedSkillsData = fetchedData.job_details.skills.map(
         eachSkill => ({
@@ -61,10 +63,23 @@ class JobDetails extends Component {
           imageUrl: eachSkill.image_url,
         }),
       )
+      //   const updatedSimilarJobs = fetchedData.job_details.similar_jobs.map(
+      //     eachSimilarJob => ({
+      //       companyLogoUrl: eachSimilarJob.company_logo_url,
+      //       employmentType: eachSimilarJob.employment_type,
+      //       id: eachSimilarJob.id,
+      //       jobDescription: eachSimilarJob.job_description,
+      //       location: eachSimilarJob.location,
+      //       rating: eachSimilarJob.rating,
+      //       title: eachSimilarJob.title,
+      //     }),
+      //   )
+
       this.setState({
         eachJobList: updatedData,
         apiStatus: apiStatusConstants.success,
         skillsData: updatedSkillsData,
+        // similarJobsData: updatedSimilarJobs,
       })
     } else {
       this.setState({
@@ -101,16 +116,21 @@ class JobDetails extends Component {
         <p>{location}</p>
         <a href={companyWebsiteUrl}>visit</a>
 
-        {/* <ul>
+        <ul>
           {skillsData.map(product => (
             <SkillsData product={product} key={product.name} />
           ))}
-        </ul> */}
+        </ul>
         <div>
           <h1>About Us</h1>
           <img src={imageUrl} />
           <p>{description}</p>
         </div>
+        {/* <ul>
+          {similarJobsData.map(product => (
+            <SimilarJobs product={product} key={product.id} />
+          ))}
+        </ul> */}
       </div>
     )
   }
