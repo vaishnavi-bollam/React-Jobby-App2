@@ -1,0 +1,13 @@
+.job-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 48px;
+
+  flex-grow: 0;
+  flex-shrink: 1;
+  margin-right: 20px;
+  border: 1px solid black;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 20px;
+}
