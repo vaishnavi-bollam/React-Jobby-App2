@@ -32,6 +32,7 @@ class JobDetails extends Component {
     location: data.location,
     packagePerAnnum: data.package_per_annum,
     rating: data.rating,
+    title: data.title,
   })
 
   getJobsData = async props => {
@@ -54,7 +55,7 @@ class JobDetails extends Component {
       const fetchedData = await response.json()
       console.log(fetchedData.job_details)
       const updatedData = this.getFormattedData(fetchedData.job_details)
-      const updatedskillsData = fetchedData.job_details.skills.map(
+      const updatedSkillsData = fetchedData.job_details.skills.map(
         eachSkill => ({
           name: eachSkill.name,
           imageUrl: eachSkill.image_url,
@@ -63,7 +64,7 @@ class JobDetails extends Component {
       this.setState({
         eachJobList: updatedData,
         apiStatus: apiStatusConstants.success,
-        skillsData: updatedskillsData,
+        skillsData: updatedSkillsData,
       })
     } else {
       this.setState({
@@ -85,10 +86,12 @@ class JobDetails extends Component {
       location,
       packagePerAnnum,
       rating,
+      title,
     } = eachJobList
     return (
       <div>
-        <img src={companyLogoUrl} />
+        <h1>{title}</h1>
+        <img src={companyLogoUrl} alt="logo" />
         <p>{rating}</p>
         <p>{employmentType}</p>
         <h1>{packagePerAnnum}</h1>
